@@ -49,8 +49,29 @@ const postMovie = (req, res) => {
     });
 };
 
+const updateMovie = (req, res) => {
+  const id = parseInt(req.params.id);
+  const {title, director, year, color, duration} = req.body;
+
+  const updateQuery = `UPDATE movies SET title=?,director=?,year=?,color=?,duration=? WHERE id = ${id};`
+  database
+    .query(updateQuery,
+    [title, director, year, color, duration]
+    )
+    .then(([result]) => {
+      res.status(204);
+      console.log('then');
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+      console.log('catch');
+    });
+}
+
 module.exports = {
   getMovies,
   getMovieById,
-  postMovie
+  postMovie,
+  updateMovie
 };
