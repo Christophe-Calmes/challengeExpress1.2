@@ -12,11 +12,7 @@ const getAllUsers = (req, res) => {
     })
 }
 const getOneUser = (req, res) => {
-
     const usersSQLSelect = `SELECT id, firstname, lastname, email, city, language FROM users WHERE id=${parseInt(req.params.id)}`;
-  
-   
-
     database
     .query(usersSQLSelect)
     .then(([oneUser]) => {
@@ -27,15 +23,36 @@ const getOneUser = (req, res) => {
             res.status(404)
             res.sendStatus("no user");
         }
-    
-       
     })
     .catch((err) => {
         console.error(err);
         res.sendStatus(404);
     })
 }
+const postNewUser = (req, res) => {
+    const {firstname, lastname, email, city, language} = req.body;
+    //console.info(typeof(firstname));
+    console.info(lastname);
+    console.info(email);
+    console.info(city);
+    console.info(language);
+    database
+        .query(
+            "INSERT INTO `users`(`firstname`, `lastname`, `email`, `city`, `language`) VALUES (?, ?, ?, ?, ?)",
+            [firstname, lastname, email, city, language]
+        )
+        .then(([result]) => {
+            res.status(201).send({id: result.insertId});
+        })
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+    }       
+
+
 module.exports = {
     getAllUsers,
-    getOneUser
+    getOneUser,
+    postNewUser
 }

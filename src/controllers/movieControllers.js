@@ -37,7 +37,7 @@ const postMovie = (req, res) => {
 
   database
     .query(
-      "INSERT INTO movies(title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO movies(title, director, year, color, duration) VALUES (?,?,?,?,?)",
       [title, director, year, color, duration]
     )
     .then(([result]) => {
