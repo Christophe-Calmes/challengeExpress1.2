@@ -49,10 +49,25 @@ const postNewUser = (req, res) => {
             res.sendStatus(500);
         })
     }       
-
+    const updateOneUser = (req, res) => {
+        const {firstname,lastname, email, city, language} = req.body;
+        const usersSQLUpdate = `UPDATE users SET firstname=?,lastname=?, email=?, city=?, language=? WHERE id=${parseInt(req.params.id)}`;
+        database
+        .query(usersSQLUpdate, [firstname,lastname, email, city, language])
+        .then(([result]) => {
+            res.status(204);
+            console.log('then');
+          })
+          .catch((err) => {
+            console.error(err);
+            res.sendStatus(500);
+            console.log('catch');
+          });
+    }
 
 module.exports = {
     getAllUsers,
     getOneUser,
-    postNewUser
+    postNewUser,
+    updateOneUser
 }
