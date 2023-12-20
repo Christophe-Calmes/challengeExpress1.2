@@ -56,12 +56,12 @@ const postNewUser = (req, res) => {
         .query(usersSQLUpdate, [firstname,lastname, email, city, language])
         .then(([result]) => {
             res.status(204);
-            console.log('then');
+          
           })
           .catch((err) => {
             console.error(err);
             res.sendStatus(500);
-            console.log('catch');
+            
           });
     }
 
