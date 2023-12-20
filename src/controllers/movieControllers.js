@@ -2,8 +2,15 @@ const database = require("../../database");
 
 
 const getMovies = (req, res) => {
+  let SELECTsql = "SELECT * FROM movies";
+  const colorType = [];
+  if(req.query.color != null) {
+    SELECTsql += " WHERE color = ?";
+    colorType.push(req.query.color);
+  }
+
   database
-  .query("SELECT * FROM `movies`")
+  .query(SELECTsql, colorType)
   .then(([movies]) => {
     res.json(movies); // use res.json instead of console.log
   })

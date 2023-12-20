@@ -9,7 +9,7 @@ const usersControllers = require("./controllers/usersControllers");
 const movieValidate = require("./middlewares/validateMovies");
 const usersValidate = require("./middlewares/validateUsers");
 
-app.get("/api/movies", movieControllers.getMovies);
+app.get("/api/movies/", movieControllers.getMovies);
 app.get("/api/movies/:id", movieControllers.getMovieById);
 app.get("/api/users", usersControllers.getAllUsers);
 app.get("/api/users/:id", usersControllers.getOneUser);
