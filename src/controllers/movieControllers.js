@@ -66,7 +66,6 @@ const updateMovie = (req, res) => {
       res.sendStatus(500);
     });
 }
-
 module.exports = {
   getMovies,
   getMovieById,
