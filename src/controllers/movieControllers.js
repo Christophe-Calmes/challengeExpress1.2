@@ -48,6 +48,7 @@ const postMovie = (req, res) => {
       res.sendStatus(500);
     });
 };
+  
 
 const updateMovie = (req, res) => {
   const id = parseInt(req.params.id);
@@ -59,16 +60,30 @@ const updateMovie = (req, res) => {
     [title, director, year, color, duration]
     )
     .then(([result]) => {
-      res.status(204);
+      res.sendStatus(204);
     })
     .catch((err) => {
       console.error(err);
       res.sendStatus(500);
     });
+};
+const delMovie = (req, res) => {
+
+  database
+    .query("DELETE FROM movies WHERE id = ?", [parseInt(req.params.id)])
+    .then(([result])=>{
+      res.sendStatus(204);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    })
 }
+
 module.exports = {
   getMovies,
   getMovieById,
   postMovie,
-  updateMovie
+  updateMovie,
+  delMovie
 };

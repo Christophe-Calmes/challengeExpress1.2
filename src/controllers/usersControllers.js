@@ -29,6 +29,7 @@ const getOneUser = (req, res) => {
         res.sendStatus(404);
     })
 }
+
 const postNewUser = (req, res) => {
     const {firstname, lastname, email, city, language} = req.body;
     //console.info(typeof(firstname));
@@ -55,7 +56,7 @@ const postNewUser = (req, res) => {
         database
         .query(usersSQLUpdate, [firstname,lastname, email, city, language])
         .then(([result]) => {
-            res.status(204);
+            res.sendStatus(204);
           
           })
           .catch((err) => {
@@ -64,10 +65,22 @@ const postNewUser = (req, res) => {
             
           });
     }
-
+    const delUser = (req, res) => {
+        database
+            .query("DELETE FROM users WHERE id = ?", [parseInt(req.params.id)])
+            .then(([result]) => {
+                res.sendStatut(204)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.sendStatus(404);
+            })
+    }
+    
 module.exports = {
     getAllUsers,
     getOneUser,
     postNewUser,
-    updateOneUser
+    updateOneUser,
+    delUser
 }
