@@ -1,16 +1,29 @@
 const database = require("../../database");
-
-
 const getMovies = (req, res) => {
   let SELECTsql = "SELECT * FROM movies";
-  const colorType = [];
-  if(req.query.color != null) {
-    SELECTsql += " WHERE color = ?";
-    colorType.push(req.query.color);
-  }
+  const arrayParams = [];
+  console.log(Object.keys(req.query).length);
 
+  if(Object.keys(req.query).length > 0) {
+    SELECTsql += " WHERE"
+  }
+    if(Object.keys(req.query).length === 1) {
+      if(req.query.color != null) {
+        SELECTsql += " color = ?";
+        arrayParams.push(req.query.color);
+      }
+    } else {
+      if(req.query.color != null) {
+        SELECTsql += " color = ? AND";
+        arrayParams.push(req.query.color);
+      }
+      if(req.query.max_duration != null) {
+        SELECTsql += " duration > ?;";
+        arrayParams.push(req.query.max_duration);
+      }
+    }
   database
-  .query(SELECTsql, colorType)
+  .query(SELECTsql, arrayParams)
   .then(([movies]) => {
     res.json(movies); // use res.json instead of console.log
   })
