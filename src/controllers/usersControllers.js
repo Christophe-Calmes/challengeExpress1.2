@@ -1,7 +1,28 @@
 const database = require("../../database");
 const getAllUsers = (req, res) => {
+
+
+  
+    const arrayParams = [];
+    let querySQL = "SELECT `id`, `firstname`, `lastname`, `email`, `city`, `language` FROM `users` ";
+    if((Object.keys(req.query).length > 0)) {
+        querySQL += " WHERE ";
+    }
+    if(req.query.language != null) {
+        querySQL += `language LIKE ?`;
+        arrayParams.push(req.query.language);
+    }
+    if(Object.keys(req.query).length > 1) {
+        querySQL += " AND ";
+    }
+    if(req.query.city != null) {
+        querySQL += `city LIKE ?`;
+        arrayParams.push(req.query.city);
+    }
+
+
     database
-    .query("SELECT `id`, `firstname`, `lastname`, `email`, `city`, `language` FROM `users` ")
+    .query(querySQL, arrayParams)
     .then(([users]) => {
         res.json(users);
         res.status(200);
